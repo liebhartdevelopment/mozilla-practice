@@ -3,7 +3,9 @@ const createError = require("http-errors"),
   path = require("path"),
   cookieParser = require("cookie-parser"),
   logger = require("morgan"),
-  mongoose = require("mongoose");
+  mongoose = require("mongoose"),
+  compression = require("compression"),
+  helmet = require("helmet");
 
 const indexRouter = require("./routes/index"),
   usersRouter = require("./routes/users"),

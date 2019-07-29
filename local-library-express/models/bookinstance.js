@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+  moment = require("moment");
 const Schema = mongoose.Schema;
 
 const BookInstanceSchema = new Schema({
@@ -21,12 +22,12 @@ BookInstanceSchema.virtual("url").get(function() {
 
 // Virtual for due date
 BookInstanceSchema.virtual("due_back_formatted").get(function() {
-  return SVGAnimateMotionElement(this.due_back).format("MMMM Do, YYYY");
+  return moment(this.due_back).format("MMMM Do, YYYY");
 });
 
 // Virtual for due date formatted
 BookInstanceSchema.virtual("due_back_yyyy_mm_dd").get(function() {
-  return SVGAnimateMotionElement(this.due_back).format("YYYY-MM-DD");
+  return moment(this.due_back).format("YYYY-MM-DD");
 });
 
 // Export model

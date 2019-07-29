@@ -3,8 +3,7 @@ const Book = require("../models/book"),
   Genre = require("../models/genre"),
   BookInstance = require("../models/bookinstance");
 
-const { body, validationResult } = require("express-validator/check");
-const { sanitizeBody } = require("express-validator/filter");
+const { body, validationResult, sanitizeBody } = require("express-validator");
 
 const async = require("async");
 

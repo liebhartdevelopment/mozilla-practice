@@ -1,13 +1,13 @@
-const createError = require("http-errors");
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const mongoose = require("mongoose");
+const createError = require("http-errors"),
+  express = require("express"),
+  path = require("path"),
+  cookieParser = require("cookie-parser"),
+  logger = require("morgan"),
+  mongoose = require("mongoose");
 
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
-const catalogRouter = require("./routes/catalog");
+const indexRouter = require("./routes/index"),
+  usersRouter = require("./routes/users"),
+  catalogRouter = require("./routes/catalog");
 
 // Config of db connection string
 const config = require("./config/db");
@@ -15,7 +15,7 @@ const config = require("./config/db");
 const app = express();
 
 // Set up mongoose connection
-var mongoDB = config.database.HOST;
+const mongoDB = config.database.HOST;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -28,6 +28,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(helmet());
+app.use(compression()); // Used to compress all routes
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);

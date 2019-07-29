@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+  moment = require("moment"); // Used for date handling
+
 const Schema = mongoose.Schema;
 
 const AuthorSchema = new Schema({
@@ -13,14 +15,32 @@ AuthorSchema.virtual("name").get(function() {
   return this.family_name + " , " + this.first_name;
 });
 
-// Virtual for authors's lifespan
-AuthorSchema.virtual("lifespan").get(function() {
-  return this.date_of_death.getYear() - this.date_of_birth.getYear().toString();
-});
-
 // Virtual for author's URL
 AuthorSchema.virtual("url").get(function() {
   return "/catalog/author/" + this._id;
+});
+
+// Virtual for author's lifespan
+AuthorSchema.virtual("lifespan").get(function() {
+  let lifetime_string = "";
+  if (this.date_of_birth) {
+    lifetime_string = moment(this.date_of_birth).format("MMMM Do, YYYY");
+  }
+  lifetime_string += " - ";
+  if (this.date_of_death) {
+    lifetime_string += moment(this.date_of_death).format("MMMM Do, YYYYY");
+  }
+  return lifetime_string;
+});
+
+// Virtual for DOB
+AuthorSchema.virtual("date_of_birth_yyyy_mm_dd").get(function() {
+  return moment(this.date_of_birth).format("YYYY-MM-DD");
+});
+
+// Virtual for dod
+AuthorSchema.virtual("date_of_death_yyyy_mm_dd").get(function() {
+  return moment(this.date_of_death).format("YYYY_MM_DD");
 });
 
 // Export model
